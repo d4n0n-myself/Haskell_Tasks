@@ -15,7 +15,7 @@ module Part1
 --
 -- На вход функции подаются неотрицательные числа
 prob1 :: Int -> Int
-prob1 x = error "Implement me!"
+prob1 x = (3 * x + 123) `mod` 65537
 
 
 ------------------------------------------------------------
@@ -25,7 +25,9 @@ prob1 x = error "Implement me!"
 -- * нечётные числа увеличивает втрое и добавляет единицу
 -- * чётные числа делит на два
 prob2 :: Integer -> Integer
-prob2 n = error "Implement me!"
+prob2 n
+  | n `mod` 2 == 0 = n `div` 2 
+  | n `mod` 2 == 1 = n * 3 + 1
 
 
 ------------------------------------------------------------
@@ -50,8 +52,10 @@ prob2 n = error "Implement me!"
 --
 -- Для любой функции step и n == 1 ответом будет 0.
 prob3 :: (Integer -> Integer) -> Integer -> Integer
-prob3 step n = error "Implement me!"
+prob3 step n = runWithCounter step n 0
 
+runWithCounter step 1 counter = counter
+runWithCounter step number counter = runWithCounter step (step number) (counter + 1)
 
 ------------------------------------------------------------
 -- PROBLEM #4
@@ -68,8 +72,18 @@ prob3 step n = error "Implement me!"
 --
 -- Число n по модулю не превосходит 10^5
 prob4 :: Integer -> Integer
-prob4 n = error "Implement me!"
+prob4 n 
+  | n == 0 = 1
+  | n > 0 = fibPositive n
+  | n < 0 = fibNegative n
 
+fibPositive 0 = 1
+fibPositive 1 = 1
+fibPositive n = ((fibPositive (n - 2)) + (fibPositive (n - 1)))
+
+fibNegative 0 = 1
+fibNegative 1 = 1
+fibNegative n = ((fibNegative (n + 2)) - (fibNegative (n + 1)))
 
 ------------------------------------------------------------
 -- PROBLEM #5
@@ -80,4 +94,11 @@ prob4 n = error "Implement me!"
 -- Числа n и k положительны и не превосходят 10^8.
 -- Число 1 не считается простым числом
 prob5 :: Integer -> Integer -> Bool
-prob5 = error "Implement me!"
+prob5 n k = all (< k) (getSimpleDividers n 2)
+
+getSimpleDividers :: Integer -> Integer -> [Integer]
+getSimpleDividers 1 i = []
+getSimpleDividers n i
+  | i * i > n = [n]
+  | n `mod` i == 0 = [i] ++ getSimpleDividers (n `div` i) i
+  | otherwise = getSimpleDividers n (i + 1)
