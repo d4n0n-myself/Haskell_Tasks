@@ -1,7 +1,8 @@
 module Part2 where
 
 import Part2.Types
-import Data.Function ((&))
+import Data.Foldable
+import Data.Maybe
 
 ------------------------------------------------------------
 -- PROBLEM #6
@@ -109,7 +110,12 @@ getRightValsList maybeTree = case maybeTree of
 -- поддерево, в корне которого находится значение, если оно
 -- есть в дереве поиска; если его нет - вернуть Nothing
 prob13 :: Ord a => a -> Tree a -> Maybe (Tree a)
-prob13 = error "Implement me!"
+prob13 num tree
+  | num == (root tree) = Just tree
+  | otherwise = do
+      maybeLeftTree <- left tree
+      maybeRightTree <- right tree
+      asum [(prob13 num maybeLeftTree), (prob13 num maybeRightTree)]
 
 ------------------------------------------------------------
 -- PROBLEM #14
@@ -117,7 +123,24 @@ prob13 = error "Implement me!"
 -- Заменить () на числа в порядке обхода "правый, левый,
 -- корень", начиная с 1
 prob14 :: Tree () -> Tree Int
-prob14 = error "Implement me!"
+prob14 tree = myTraverse tree (getNodesCountInTree tree) 
+
+myTraverse tree num = 
+  Tree (do
+     maybeLeftTree <- left tree
+     return (myTraverse maybeLeftTree (num - 1))
+  ) 
+  num 
+  (do 
+    maybeRightTree <- right tree
+    return (myTraverse maybeRightTree (getNumberForRightTree tree num))
+  )
+
+getNumberForRightTree tree num = case left tree of
+    Just leftSubTree -> num - (getNodesCountInTree leftSubTree + 1)
+    Nothing -> num - 1
+
+getNodesCountInTree tree = 1 + maybe 0 getNodesCountInTree (left tree) + maybe 0 getNodesCountInTree (right tree)
 
 ------------------------------------------------------------
 -- PROBLEM #15
