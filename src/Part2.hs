@@ -8,7 +8,10 @@ import Part2.Types
 -- Написать функцию, которая преобразует значение типа
 -- ColorLetter в символ, равный первой букве значения
 prob6 :: ColorLetter -> Char
-prob6 = error "Implement me!"
+prob6 l = case l of
+  RED -> 'R'
+  GREEN -> 'G'
+  BLUE -> 'B'
 
 ------------------------------------------------------------
 -- PROBLEM #7
@@ -16,7 +19,13 @@ prob6 = error "Implement me!"
 -- Написать функцию, которая проверяет, что значения
 -- находятся в диапазоне от 0 до 255 (границы входят)
 prob7 :: ColorPart -> Bool
-prob7 = error "Implement me!"
+prob7 p = (getVal p) <= 255 && (getVal p) >= 0
+
+getVal :: ColorPart -> Int
+getVal p = case p of
+  Red int -> int
+  Green int -> int
+  Blue int -> int
 
 ------------------------------------------------------------
 -- PROBLEM #8
@@ -24,7 +33,10 @@ prob7 = error "Implement me!"
 -- Написать функцию, которая добавляет в соответствующее
 -- поле значения Color значение из ColorPart
 prob8 :: Color -> ColorPart -> Color
-prob8 = error "Implement me!"
+prob8 c p = case p of
+    Red v -> Color { red = (red c) + v, green = (green c), blue = (blue c)}
+    Green v -> Color { green = (green c) + v, red = (red c), blue = (blue c)}
+    Blue v -> Color { blue = (blue c) + v, red = (red c), green = (green c)}
 
 ------------------------------------------------------------
 -- PROBLEM #9
@@ -32,7 +44,7 @@ prob8 = error "Implement me!"
 -- Написать функцию, которая возвращает значение из
 -- ColorPart
 prob9 :: ColorPart -> Int
-prob9 = error "Implement me!"
+prob9 p = getVal p
 
 ------------------------------------------------------------
 -- PROBLEM #10
@@ -40,7 +52,23 @@ prob9 = error "Implement me!"
 -- Написать функцию, которая возвращает компонент Color, у
 -- которого наибольшее значение (если такой единственный)
 prob10 :: Color -> Maybe ColorPart
-prob10 = error "Implement me!"
+prob10 c = do
+  let maxVal = getMaxVal c
+  let lengthOfMaxVals = length (filter (\v -> v == maxVal) (getVals c))
+  if lengthOfMaxVals > 1 then Nothing
+    else getColorPartByValue c maxVal
+
+getMaxVal :: Color -> Int
+getMaxVal c = maximum (getVals c)
+
+getVals :: Color -> [Int]
+getVals c = [(red c), (green c), (blue c)]
+
+getColorPartByValue :: Color -> Int -> Maybe ColorPart
+getColorPartByValue c val
+  | red c == val = Just (Red (red c))
+  | green c == val = Just (Green (green c))
+  | blue c == val = Just (Blue (blue c))
 
 ------------------------------------------------------------
 -- PROBLEM #11
