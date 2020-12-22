@@ -1,6 +1,7 @@
 module Part2 where
 
 import Part2.Types
+import Data.Function ((&))
 
 ------------------------------------------------------------
 -- PROBLEM #6
@@ -75,7 +76,12 @@ getColorPartByValue c val
 --
 -- Найти сумму элементов дерева
 prob11 :: Num a => Tree a -> a
-prob11 = error "Implement me!"
+prob11 tree = (getTreeSumFromMaybe (left tree)) + (root tree) + (getTreeSumFromMaybe (right tree))
+
+getTreeSumFromMaybe :: Num a => Maybe (Tree a) -> a
+getTreeSumFromMaybe maybeTree = case maybeTree of
+  Nothing -> 0
+  Just val -> prob11 val
 
 ------------------------------------------------------------
 -- PROBLEM #12
@@ -86,8 +92,16 @@ prob11 = error "Implement me!"
 -- а все элементы правого поддерева -- не меньше элемента
 -- в узле)
 prob12 :: Ord a => Tree a -> Bool
-prob12 = error "Implement me!"
+prob12 tree = all (< (root tree)) (getLeftValsList (left tree)) 
+          && all (>= (root tree)) (getRightValsList (right tree))
 
+getLeftValsList maybeTree = case maybeTree of
+  Nothing -> []
+  Just val -> [(root val)] ++ getLeftValsList (left val)
+
+getRightValsList maybeTree = case maybeTree of
+  Nothing -> []
+  Just val -> [(root val)] ++ getRightValsList (left val)
 ------------------------------------------------------------
 -- PROBLEM #13
 --
