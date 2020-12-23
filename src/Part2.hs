@@ -148,7 +148,7 @@ getNodesCountInTree tree = 1 + maybe 0 getNodesCountInTree (left tree) + maybe 0
 -- Выполнить вращение дерева влево относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob15 :: Tree a -> Tree a
-prob15 = error "Implement me!"
+prob15 tree = maybe tree (\rt -> rt { left = Just ( tree { right = left rt  }) }) (right tree)
 
 ------------------------------------------------------------
 -- PROBLEM #16
@@ -156,7 +156,7 @@ prob15 = error "Implement me!"
 -- Выполнить вращение дерева вправо относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob16 :: Tree a -> Tree a
-prob16 = error "Implement me!"
+prob16 tree = maybe tree (\lt -> lt { right = Just (tree { left = right lt  }) }) (left tree)
 
 ------------------------------------------------------------
 -- PROBLEM #17
