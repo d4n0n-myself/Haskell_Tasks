@@ -1,6 +1,6 @@
 module Part3 where
 
-import Data.List (group)
+import Data.List
 
 ------------------------------------------------------------
 -- PROBLEM #18
@@ -33,7 +33,11 @@ prob19 n = map (\x -> (head x, length x)) (group (getSimpleDividers n 2))
 -- Совершенное число равно сумме своих делителей (меньших
 -- самого числа)
 prob20 :: Integer -> Bool
-prob20 n = n == sum (filter (\x -> x < n) (getSimpleDividers n 1))
+prob20 n = n == sum (getAllDivisorsButNumber n) 
+
+getAllDivisorsButNumber n = do
+ let beginning = if n == 1 then [] else [1]
+ beginning ++ (nub ([ i | i <- [2..(n `div` 2)], n `mod` i == 0 ]))
 
 ------------------------------------------------------------
 -- PROBLEM #21
@@ -41,7 +45,7 @@ prob20 n = n == sum (filter (\x -> x < n) (getSimpleDividers n 1))
 -- Вернуть список всех делителей числа N (1<=N<=10^10) в
 -- порядке возрастания
 prob21 :: Integer -> [Integer]
-prob21 = error "Implement me!"
+prob21 n = (sort (getAllDivisorsButNumber n)) ++ [n]
 
 ------------------------------------------------------------
 -- PROBLEM #22
