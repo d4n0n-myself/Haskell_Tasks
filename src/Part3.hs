@@ -10,6 +10,7 @@ prob18 :: Integer -> Bool
 prob18 n = getSimpleDividers n 2 == [n] 
 
 getSimpleDividers :: Integer -> Integer -> [Integer]
+getSimpleDividers n 1 = [1] ++ getSimpleDividers n 2
 getSimpleDividers 1 i = []
 getSimpleDividers n i
   | i * i > n = [n]
@@ -32,7 +33,7 @@ prob19 n = map (\x -> (head x, length x)) (group (getSimpleDividers n 2))
 -- Совершенное число равно сумме своих делителей (меньших
 -- самого числа)
 prob20 :: Integer -> Bool
-prob20 = error "Implement me!"
+prob20 n = n == sum (filter (\x -> x < n) (getSimpleDividers n 1))
 
 ------------------------------------------------------------
 -- PROBLEM #21
