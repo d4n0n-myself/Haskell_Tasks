@@ -72,18 +72,17 @@ runWithCounter step number counter = runWithCounter step (step number) (counter 
 --
 -- Число n по модулю не превосходит 10^5
 prob4 :: Integer -> Integer
-prob4 n 
+prob4 n
   | n == 0 = 1
-  | n > 0 = fibPositive n
-  | n < 0 = fibNegative n
+  | n == 1 = 1
+  | n > 2 = fibPositive 1 1 n
+  | otherwise = fibNegative 1 1 n
 
-fibPositive 0 = 1
-fibPositive 1 = 1
-fibPositive n = ((fibPositive (n - 2)) + (fibPositive (n - 1)))
+fibPositive firstNumber secondNumber 0 = firstNumber
+fibPositive firstNumber secondNumber currIndex = fibPositive secondNumber (firstNumber + secondNumber) (currIndex - 1)
 
-fibNegative 0 = 1
-fibNegative 1 = 1
-fibNegative n = ((fibNegative (n + 2)) - (fibNegative (n + 1)))
+fibNegative firstNumber secondNumber 0 = secondNumber
+fibNegative firstNumber secondNumber currIndex = fibNegative secondNumber (firstNumber - secondNumber) (currIndex + 1)
 
 ------------------------------------------------------------
 -- PROBLEM #5
