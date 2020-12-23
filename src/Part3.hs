@@ -1,11 +1,20 @@
 module Part3 where
 
+import Data.List (group)
+
 ------------------------------------------------------------
 -- PROBLEM #18
 --
 -- Проверить, является ли число N простым (1 <= N <= 10^9)
 prob18 :: Integer -> Bool
-prob18 = error "Implement me!"
+prob18 n = getSimpleDividers n 2 == [n] 
+
+getSimpleDividers :: Integer -> Integer -> [Integer]
+getSimpleDividers 1 i = []
+getSimpleDividers n i
+  | i * i > n = [n]
+  | n `mod` i == 0 = [i] ++ getSimpleDividers (n `div` i) i
+  | otherwise = getSimpleDividers n (i + 1)
 
 ------------------------------------------------------------
 -- PROBLEM #19
@@ -14,7 +23,7 @@ prob18 = error "Implement me!"
 -- разложении числа N (1 <= N <= 10^9). Простые делители
 -- должны быть расположены по возрастанию
 prob19 :: Integer -> [(Integer, Int)]
-prob19 = error "Implement me!"
+prob19 n = map (\x -> (head x, length x)) (group (getSimpleDividers n 2))
 
 ------------------------------------------------------------
 -- PROBLEM #20
