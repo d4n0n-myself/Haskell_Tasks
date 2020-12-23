@@ -73,9 +73,7 @@ runWithCounter step number counter = runWithCounter step (step number) (counter 
 -- Число n по модулю не превосходит 10^5
 prob4 :: Integer -> Integer
 prob4 n
-  | n == 0 = 1
-  | n == 1 = 1
-  | n > 2 = fibPositive 1 1 n
+  | n >= 0 = fibPositive 1 1 n
   | otherwise = fibNegative 1 1 n
 
 fibPositive firstNumber secondNumber 0 = firstNumber
