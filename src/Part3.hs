@@ -37,7 +37,7 @@ prob20 n = n == sum (getAllDivisorsButNumber n)
 
 getAllDivisorsButNumber n = do
  let beginning = if n == 1 then [] else [1]
- beginning ++ (nub ([ i | i <- [2..(n `div` 2)], n `mod` i == 0 ]))
+ beginning ++ (nub (concat [ [i, n `div ` i] | i <- [2..(floor (sqrt (fromIntegral n)))], n `mod` i == 0 ]))
 
 ------------------------------------------------------------
 -- PROBLEM #21
